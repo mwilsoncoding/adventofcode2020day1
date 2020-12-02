@@ -18,6 +18,7 @@ private fun imperativo() {
       z := x + y
       yi := yi + 1
     }
+    yi := 0
     xi := xi + 1
   }
   (x * y).println()

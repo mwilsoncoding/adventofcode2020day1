@@ -4,6 +4,10 @@ fun main() {
   imperativo()
 }
 
+private fun product( xs : list<int> ) : int {
+  xs.foldl(1, fn(x,y){x * y})
+}
+
 private fun imperativo() {
   var numbers := get-args().head("").lines().map(fn(s){s.parse-int-default()}).vector()
   var xi := 0
@@ -13,23 +17,27 @@ private fun imperativo() {
   var x := numbers.at(xi).mbint()
   var y := numbers.at(yi).mbint()
   var w := numbers.at(wi).mbint()
-  while{ z != 2020 && xi < numbers.length() } {
+  val len = numbers.length()
+  while{ z != 2020 && xi < len } {
     x := numbers.at(xi).mbint()
-    while{ z != 2020 && yi < numbers.length() } {
+    while{ z != 2020 && yi < len } {
       y := numbers.at(yi).mbint()
-      while{ z != 2020 && wi < numbers.length() } {
+      while{ z != 2020 && wi < len } {
         w := numbers.at(wi).mbint()
         z := x + y + w
         wi := wi + 1
       }
       yi := yi + 1
+      wi := yi + 1
     }
     xi := xi + 1
+    yi := xi + 1
+    wi := yi + 1
   }
-  (x * y * z).println()
+  [x,y,w].product().println()
 }
 
-fun haskellish() {
+private fun haskellish() {
   get-args()
     .head("")
     .lines()
