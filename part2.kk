@@ -1,7 +1,7 @@
-import std/os/env
+import std/os/file
 
 fun main() {
-  imperativo()
+  haskellish()
 }
 
 private fun product( xs : list<int> ) : int {
@@ -37,14 +37,26 @@ private fun imperativo() {
   [x,y,w].product().println()
 }
 
+private fun sum-prod-outer(l : list<int>) {
+  match (sum-prod-inner(2020 - l.head(0), l.tail())) {
+    Just(y) -> y * l.head(0)
+    Nothing -> if (l.tail().is-empty()) then 0 else sum-prod-outer(list.tail())
+  }
+}
+
+private fun sum-prod-inner(n : <int>, l : list<int>) {
+  val answer = l.tail().find-maybe(fn(x){ if (x == n - l.head(0)) then Just(x * (n - x)) else Nothing }
+  match (answer) {
+    Just(n) -> Just(n)
+    Nothing -> if (l.tail().is-empty()) then Nothing else sum-prod-inner(n, l.tail())
+  }
+}
+
 private fun haskellish() {
-  get-args()
+  read-text-file("./input")
     .head("")
     .lines()
     .map(fn(s){s.parse-int-default()})
-    .map-peek(fn(value, rest){ rest.map-peek(fn(value2, rest2){ rest2.map(fn(value3){ (value, value2, value3, value + value2 + value3) }) }) })
-    .flatmap(id).flatmap(id)
-    .filter-map(fn(tup){ match(tup){ (x, y, z, 2020) -> Just(x * y * z); _ -> Nothing }})
-    .head(0)
+    .sum-prod-outer()
     .println()
 }
